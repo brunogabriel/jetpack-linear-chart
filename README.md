@@ -1,6 +1,8 @@
 # jetpack-linear-chart
 A simple way to draw linear chart using Jetpack Compose
 
+In construction ...
+
 ## Showcase
 <p>
     <img src="example1.png" width=200>
