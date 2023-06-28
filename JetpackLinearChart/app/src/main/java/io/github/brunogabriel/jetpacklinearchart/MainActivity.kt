@@ -41,18 +41,24 @@ sealed class LinearChartStyle {
 fun LinearChart(
     modifier: Modifier = Modifier,
     style: LinearChartStyle = LinearChartStyle.Default,
-    data: List<Int>
+    data: List<Float>
 ) {
+    if (data.isEmpty()) {
+        return
+    }
+
     Canvas(modifier = modifier) {
         // distance between each x point
         val distance = size.width / (data.size + 1)
         var currentX = 0F
-        val maxValue = data.maxOrNull() ?: 0
+        val maxValue = data.max()
+        val minValue = data.min()
         val points = mutableListOf<PointF>()
 
         data.forEachIndexed { index, currentData ->
             if (data.size >= index + 2) {
-                val y0 = (maxValue - currentData) * (size.height / maxValue)
+                val y0 = if (maxValue == minValue) size.height / 2 else
+                    (maxValue - currentData) / (maxValue - minValue) * size.height
                 val x0 = currentX + distance
                 points.add(PointF(x0, y0))
                 currentX += distance
@@ -122,7 +128,7 @@ fun LinearChartApplication() {
 }
 
 private fun provideMockData() = listOf(
-    5929, 6898, 8961, 5674, 7122, 6592, 3427, 5520, 4680, 7418,
-    4743, 4080, 3611, 7295, 9900, 12438, 11186, 5439, 4227, 5138,
-    11115, 8386, 12450, 10411, 10852, 7782, 7371, 4983, 9234, 6847
+    5929f, 6898f, 8961f, 5674f, 7122f, 6592f, 3427f, 5520f, 4680f, 7418f,
+    4743f, 4080f, 3611f, 7295f, 9900f, 12438f, 11186f, 5439f, 4227f, 5138f,
+    11115f, 8386f, 12450f, 10411f, 10852f, 7782f, 7371f, 4983f, 9234f, 6847f
 )
